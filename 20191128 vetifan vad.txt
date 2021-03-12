@@ -1,0 +1,162 @@
+package P3;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
+/**
+ * ==========================================================
+ * <<Boundary-Class>>                       //
+ * här ligger mina JButtons, Labels, Paneler  o sånt :))... //
+ * ========================================================
+ */
+public class MainPanel extends JPanel {
+
+    private JPanel pnlWest = new JPanel(new BorderLayout());
+    private JPanel pnlEast = new JPanel(new BorderLayout());
+
+    private JPanel pnlNorthEast = new JPanel(new BorderLayout());
+    private JPanel pnlNorthWest = new JPanel(new BorderLayout());
+    private JPanel pnlWestNorthWest = new JPanel(new GridLayout(6, 1));
+    private JPanel pnlEastNorthWest = new JPanel(new GridLayout(6, 1));
+    private JPanel pnlSouthWest = new JPanel(new GridLayout(2, 3));
+    private JLabel lblSouthEast = new JLabel(" ");
+    private JPanel pnlSouthEast = new JPanel(null);
+
+    private JTextField txtField_FirstName = new JTextField("");
+    private JTextField txtField_LastName = new JTextField("");
+    private JTextField txtField_Street = new JTextField("");
+    private JTextField txtField_City = new JTextField("");
+    private JTextField txtField_ZipCode = new JTextField("");
+
+    private JTextArea SummaryPrsData = new JTextArea();
+    private JLabel lblFirstName = new JLabel("First name: ");
+    private JLabel lblLastName = new JLabel("Last name:  ");
+
+    private JLabel lblStreet = new JLabel("Street: ");
+    private JLabel lblCity = new JLabel("City:  ");
+    private JLabel lblZipCode = new JLabel("Zip code: ");
+    private JLabel lblCountry = new JLabel("Country: ");
+    public JComboBox CountrySelection = new JComboBox(Countries.values());
+
+    private JRadioButton JRB_English = new JRadioButton("English");
+    private JRadioButton JRB_Swedish = new JRadioButton("Svenska");
+    private JRadioButton JRB_Other第二 = new JRadioButton("Annat/Other/第二/Anderen");
+
+    private JButton JB_AddContact = new JButton("Add Contact");
+    private JButton JB_ChangeContact = new JButton("Change Contact");
+    private JButton JB_DeleteContact = new JButton("Delete Contact");
+
+    private ButtonGroup btnGrp = new ButtonGroup();
+
+
+    public MainPanel() {
+        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(1220, 460));
+
+        add(pnlWest, BorderLayout.WEST);//vänster sida
+        add(pnlEast, BorderLayout.EAST);//höger sida
+        pnlWest.setPreferredSize(new Dimension(600, 400));//dimensioner
+        pnlEast.setPreferredSize(new Dimension(600, 400));// - || -
+        pnlEast.setBackground(Color.cyan);//för att hålla rätt på dom färgade jag dom
+        pnlWest.setBackground(Color.red);// - || -
+
+        pnlWest.add(pnlNorthWest, BorderLayout.NORTH);
+        pnlNorthWest.add(pnlWestNorthWest, BorderLayout.WEST);
+        pnlNorthWest.add(pnlEastNorthWest, BorderLayout.EAST);
+        pnlWest.add(pnlSouthWest, BorderLayout.SOUTH);
+        pnlWestNorthWest.add(lblFirstName);
+        pnlWestNorthWest.add(lblLastName);
+        pnlWestNorthWest.add(lblStreet);
+        pnlWestNorthWest.add(lblCity);
+        pnlWestNorthWest.add(lblZipCode);
+        pnlWestNorthWest.add(lblCountry);
+
+        pnlEast.add(pnlNorthEast, BorderLayout.NORTH);
+        pnlEast.add(pnlSouthEast, BorderLayout.SOUTH);
+        pnlNorthEast.add(SummaryPrsData, BorderLayout.NORTH);
+        pnlSouthEast.add(lblSouthEast, BorderLayout.SOUTH);
+
+        pnlWestNorthWest.setPreferredSize(new Dimension(300, 270));
+        pnlEastNorthWest.setPreferredSize(new Dimension(300, 270));
+
+        pnlSouthWest.setPreferredSize(new Dimension(600, 100));
+        pnlSouthEast.setPreferredSize(new Dimension(600, 270));
+        lblSouthEast.setPreferredSize(new Dimension(595, 95));
+        SummaryPrsData.setPreferredSize(new Dimension(595, 270));
+
+        btnGrp.add(JRB_English);
+        btnGrp.add(JRB_Swedish);
+        btnGrp.add(JRB_Other第二);
+        JRB_English.setSelected(true);
+
+        pnlSouthWest.add(JB_AddContact);
+        JB_AddContact.addActionListener(new SummaryListener());
+        pnlSouthWest.add(JB_ChangeContact);
+        pnlSouthWest.add(JB_DeleteContact);
+        pnlSouthWest.add(JRB_English);
+        pnlSouthWest.add(JRB_Swedish);
+        pnlSouthWest.add(JRB_Other第二);
+
+        pnlEastNorthWest.add(txtField_FirstName);
+        pnlEastNorthWest.add(txtField_LastName);
+        pnlEastNorthWest.add(txtField_Street);
+        pnlEastNorthWest.add(txtField_City);
+        pnlEastNorthWest.add(txtField_ZipCode);
+        pnlEastNorthWest.add(CountrySelection);
+
+        pnlNorthEast.add(SummaryPrsData);
+        pnlSouthEast.add(lblSouthEast);
+        CountrySelection.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) { }});
+
+
+
+    }
+
+    private class SummaryListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) { summary(); getCountryName(); }
+    }
+
+    public String getCountryName() {
+        return String.valueOf(getToolTipText());
+
+    }
+
+    public String summary() {
+        if (JB_AddContact.isSelected()) ;
+        {
+            String res;
+            res =   "  First name: " + txtField_FirstName.getText() + "\n" +
+                    "  Last name: " + txtField_LastName.getText() + "\n" +
+                    "  Street: " + txtField_Street.getText() + "" + "\n" +
+                    "  City: " + txtField_City.getText() + "\n" +
+                    "  ZipCode: " + txtField_ZipCode.getText() + "\n";
+            if (JRB_English.isSelected()) res += "  Language: English" + "\n" ;
+            else if (JRB_Swedish.isSelected()) res += "  Language: Swedish" + "\n" ;
+            else res += "  Language: Annat/Other/第二/Anderen" + "\n" ;
+            res += "\n"; //visa texten i JTextArea-komponenten
+            SummaryPrsData.setText(res);
+            return summary();
+        }
+    }
+
+
+    /**
+     SummaryPrsData(InputEvent) {
+     public JTextField getTxtField_FirstName(){
+     return txtField_FirstName;
+     }*/
+
+}
+
+
+
+
+
+
+
